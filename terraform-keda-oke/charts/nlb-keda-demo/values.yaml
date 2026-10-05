@@ -1,0 +1,11 @@
+ociRegion: ""
+compartmentOcid: ""
+nlbTagValue: ""
+adapter:
+  image: docker.io/library/python:3.12-slim
+echo:
+  image: docker.io/hashicorp/http-echo:1.0
+scaling:
+  minReplicas: 1
+  maxReplicas: 10
+  connectionsPerReplica: 50

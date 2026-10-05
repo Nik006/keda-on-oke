@@ -1,0 +1,23 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: echo-nlb-traffic
+  namespace: nlb-keda-test
+spec:
+  scaleTargetRef:
+    name: echo
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: 300
+  triggers:
+    - type: metrics-api
+      metadata:
+        url: http://oci-nlb-metrics-adapter.nlb-keda-test.svc.cluster.local:8080/metrics/nlb
+        format: json
+        valueLocation: nlb.newConnectionsPerMinute
+        targetValue: "50"
+        timeout: "30s"

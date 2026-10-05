@@ -1,0 +1,6 @@
+apiVersion: v2
+name: nlb-keda-demo
+description: OKE NLB metric adapter and KEDA ScaledObject demonstration
+type: application
+version: 0.1.0
+appVersion: "1.0"

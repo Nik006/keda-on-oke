@@ -1,0 +1,13 @@
+tenancy_ocid       = "ocid1.tenancy.oc1..example"
+compartment_ocid   = "ocid1.compartment.oc1..example"
+region             = "us-ashburn-1"
+availability_domain = "Uocm:US-ASHBURN-AD-1"
+
+cluster_name       = "keda-nlb-oke"
+kubernetes_version = "v1.36.1"
+node_image_ocid    = "ocid1.image.oc1.iad.example"
+ssh_public_key     = "ssh-rsa AAAA..."
+
+# Replace both with trusted ranges. Do not use 0.0.0.0/0 outside a lab.
+admin_cidr      = "203.0.113.10/32"
+nlb_client_cidr = "203.0.113.10/32"
