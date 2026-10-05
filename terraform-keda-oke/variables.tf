@@ -1,3 +1,6 @@
+# Copyright (c) 2022, 2024 Oracle Corporation and/or its affiliates.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl
+
 variable "tenancy_ocid" {
   description = "OCID of the tenancy."
   type        = string

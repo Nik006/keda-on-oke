@@ -1,3 +1,8 @@
+<!--
+# Copyright (c) 2022, 2024 Oracle Corporation and/or its affiliates.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl
+-->
+
 # Event-Driven Autoscaling on Oracle Cloud Infrastructure with KEDA
 
 Run Kubernetes workloads on Oracle Cloud Infrastructure (OCI) that scale for the work actually waiting to be processed. This solution deploys KEDA on Oracle Kubernetes Engine (OKE), together with a small RabbitMQ-backed worker demonstration. It is intended as a practical starting point: replace the demonstration queue with your production event source when you are ready.
@@ -94,4 +99,3 @@ Scale-to-zero is powerful for asynchronous workers, but it is not automatically 
 Begin with these concepts: a Kubernetes Deployment runs your workers; an HPA changes their replica count; a KEDA `ScaledObject` connects the Deployment to an event signal; and `TriggerAuthentication` keeps that connection secure. Then run the demo, change `value` from `5` to `20`, and observe how the replica decision changes. That small experiment makes the configuration concrete before applying it to production queues.
 
 For implementation detail, see the [KEDA concepts documentation](https://keda.sh/docs/latest/concepts/), [KEDA scaling behavior](https://keda.sh/docs/latest/concepts/scaling-deployments/), and OCI’s guidance on [autoscaling OKE node pools and pods](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengautoscalingclusters.htm). Oracle Solution Hub publishing normally requires your organization’s authoring access and review workflow; submit this page with the Terraform GitHub URL once that repository is public and validated.
-

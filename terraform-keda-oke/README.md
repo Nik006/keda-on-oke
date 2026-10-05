@@ -1,3 +1,6 @@
+# Copyright (c) 2022, 2024 Oracle Corporation and/or its affiliates.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl
+
 # One-click KEDA scaling from OCI Network Load Balancer metrics
 
 This Terraform root module builds an isolated OCI environment and deploys an end-to-end KEDA demonstration in one `terraform apply`:

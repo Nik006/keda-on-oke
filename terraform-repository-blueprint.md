@@ -1,3 +1,8 @@
+<!--
+# Copyright (c) 2022, 2024 Oracle Corporation and/or its affiliates.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl
+-->
+
 # Terraform Repository Blueprint: KEDA on OKE
 
 Use this layout for the GitHub repository linked from the Solution Hub article:
