@@ -1,0 +1,153 @@
+# Copyright (c) 2022, 2024 Oracle Corporation and/or its affiliates.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl
+
+schemaVersion: "1.1.0"
+title: "KEDA on OKE with OCI NLB metrics"
+description: "Creates an Enhanced OKE cluster, KEDA, an OCI Monitoring metrics adapter, and an NLB-backed sample workload."
+stackDescription: "Event-driven autoscaling on OKE from OCI Network Load Balancer NewConnections metrics."
+version: "1.0.0"
+locale: "en"
+instructions: "Provide values for the required fields, then run Plan before Apply. This deployment creates billable OCI resources."
+
+variableGroups:
+  - title: "Destination"
+    variables:
+      - tenancy_ocid
+      - compartment_ocid
+      - region
+      - availability_domain
+  - title: "OKE cluster"
+    variables:
+      - cluster_name
+      - kubernetes_version
+      - node_image_ocid
+      - ssh_public_key
+  - title: "Access and networking"
+    variables:
+      - admin_cidr
+      - nlb_client_cidr
+      - vcn_cidr
+      - control_plane_subnet_cidr
+      - node_subnet_cidr
+      - nlb_subnet_cidr
+  - title: "Worker nodes"
+    variables:
+      - node_shape
+      - node_ocpus
+      - node_memory_gbs
+      - node_pool_size
+  - title: "KEDA scaling"
+    variables:
+      - min_replicas
+      - max_replicas
+      - connections_per_replica
+
+variables:
+  tenancy_ocid:
+    type: string
+    required: true
+    title: "Tenancy OCID"
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    required: true
+    title: "Compartment"
+  region:
+    type: oci:identity:region:name
+    required: true
+    title: "Region"
+  availability_domain:
+    type: oci:identity:availabilitydomain:name
+    required: true
+    title: "Availability domain"
+    dependsOn:
+      compartmentId: compartment_ocid
+  cluster_name:
+    type: string
+    required: true
+    default: "keda-nlb-oke"
+    title: "Cluster name"
+  kubernetes_version:
+    type: string
+    required: true
+    title: "OKE Kubernetes version"
+  node_image_ocid:
+    type: oci:core:image:id
+    required: true
+    title: "Worker node image"
+    dependsOn:
+      compartmentId: compartment_ocid
+  ssh_public_key:
+    type: oci:core:ssh:publickey
+    required: true
+    title: "Worker node SSH public key"
+  admin_cidr:
+    type: string
+    required: true
+    title: "OKE API allowed CIDR"
+    description: "CIDR allowed to reach TCP/6443 on the public Kubernetes API."
+  nlb_client_cidr:
+    type: string
+    required: true
+    title: "NLB client allowed CIDR"
+    description: "CIDR allowed to reach the sample NLB on TCP/80."
+  vcn_cidr:
+    type: string
+    required: true
+    default: "10.42.0.0/16"
+    title: "VCN CIDR"
+  control_plane_subnet_cidr:
+    type: string
+    required: true
+    default: "10.42.0.0/24"
+    title: "Control-plane subnet CIDR"
+  node_subnet_cidr:
+    type: string
+    required: true
+    default: "10.42.10.0/24"
+    title: "Worker subnet CIDR"
+  nlb_subnet_cidr:
+    type: string
+    required: true
+    default: "10.42.20.0/24"
+    title: "NLB subnet CIDR"
+  node_shape:
+    type: string
+    required: true
+    default: "VM.Standard.E4.Flex"
+    title: "Worker node shape"
+  node_ocpus:
+    type: integer
+    required: true
+    default: 2
+    minimum: 1
+    title: "OCPUs per worker node"
+  node_memory_gbs:
+    type: integer
+    required: true
+    default: 16
+    minimum: 1
+    title: "Memory (GB) per worker node"
+  node_pool_size:
+    type: integer
+    required: true
+    default: 2
+    minimum: 1
+    title: "Initial worker node count"
+  min_replicas:
+    type: integer
+    required: true
+    default: 1
+    minimum: 1
+    title: "Minimum application replicas"
+  max_replicas:
+    type: integer
+    required: true
+    default: 10
+    minimum: 1
+    title: "Maximum application replicas"
+  connections_per_replica:
+    type: integer
+    required: true
+    default: 50
+    minimum: 1
+    title: "NLB new connections per replica per minute"

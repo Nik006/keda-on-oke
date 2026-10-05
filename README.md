@@ -7,6 +7,8 @@
 
 This repository deploys an end-to-end KEDA demonstration on Oracle Kubernetes Engine (OKE). It provisions a new OKE environment, exposes a sample HTTP application through an OCI Network Load Balancer (NLB), reads the NLB `NewConnections` metric from OCI Monitoring, and scales the application through KEDA.
 
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/Nik006/keda-on-oke/archive/refs/heads/main.zip)
+
 ```text
 Client traffic
   -> OCI Network Load Balancer
@@ -30,19 +32,25 @@ Client traffic
 
 The default scaling target is 50 new NLB connections per minute per application replica.
 
-## Prerequisites
+## Deploy with Oracle Resource Manager
 
-Run Terraform from your local workstation. This solution uses the OCI CLI to obtain short-lived OKE tokens for the Helm provider.
+Select the **Deploy to Oracle Cloud** button above. It downloads the `main` branch, opens a preconfigured Create Stack page, and uses the root `schema.yaml` to collect deployment values. Select Terraform **1.5.x**, provide the required values, run **Plan**, review the result, and then run **Apply**.
 
-- Terraform 1.7 or later
+The stack creates billable resources. In particular, it creates OKE worker nodes, a NAT Gateway, and a public NLB.
+
+> **Important:** The Helm provider must reach the OKE Kubernetes API while the stack is running. The default configuration permits only `admin_cidr` on TCP/6443. Before running Apply from Resource Manager, configure a Resource Manager private endpoint with network access to the OKE API, or add the Resource Manager job's approved source CIDR to the API rule. Do not open the API to `0.0.0.0/0` for a production deployment.
+
+## Local deployment prerequisites
+
+For a local deployment, run Terraform from a trusted workstation. This solution uses the OCI CLI to obtain short-lived OKE tokens for the Helm provider.
+
+- Terraform 1.5.x
 - OCI CLI authenticated to the target tenancy
 - Helm 3 or later
 - OCI permissions to create networking, OKE, Compute, and IAM policy resources
 - An OKE-compatible worker image OCID for your selected Kubernetes version
 - A public SSH key for worker-node access
 - Your public IP address in CIDR form, such as `203.0.113.10/32`
-
-Do not run this Terraform root module from OCI Resource Manager without adapting the OKE authentication method.
 
 ## Configure the deployment
 
